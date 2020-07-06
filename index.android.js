@@ -562,6 +562,25 @@ class RNGoogleFit {
     )
   }
 
+    getBloodGlucoseSamples(options, callback) {
+    const startDate = Date.parse(options.startDate)
+    const endDate = Date.parse(options.endDate)
+    googleFit.getBloodGlucoseSamples(
+      startDate,
+      endDate,
+      msg => {
+        callback(msg, false)
+      },
+      res => {
+        if (res.length > 0) {
+          callback(false, prepareResponse(res, 'value'))
+        } else {
+          callback('There is no blood glucose data for this period', false)
+        }
+      }
+    )
+  }
+
   getHydrationSamples = (startDate, endDate, callback) => {
     startDate = !isNil(startDate)
       ? Date.parse(startDate)
